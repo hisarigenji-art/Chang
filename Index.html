@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Chang - Valentine 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-pastel: #ffdeeb;
+            --love-red: #ff4d6d;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--pink-pastel);
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* Hiệu ứng trái tim bay nền */
+        .heart-bg {
+            position: absolute;
+            top: -10%;
+            color: rgba(255, 77, 109, 0.3);
+            font-size: 20px;
+            animation: move linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes move {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        #main-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            max-width: 90%;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: var(--love-red);
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 150px;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        #btn-yes {
+            background-color: var(--love-red);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            z-index: 100;
+        }
+
+        #btn-no {
+            background-color: #6c757d;
+            color: white;
+            position: relative;
+        }
+
+        /* Màn hình thành công */
+        #success-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #success-screen h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem;
+            color: var(--love-red);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Pháo hoa giả lập bằng CSS */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f2d74e;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(720deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-container">
+        <h1>Chang làm vợ anh nha?</h1>
+        <div class="btn-group">
+            <button id="btn-yes">Có</button>
+            <button id="btn-no">Không</button>
+        </div>
+    </div>
+
+    <div id="success-screen">
+        <h2 id="final-text">Đồng ý rồi nhá hahaahha! ❤️</h2>
+        <p style="font-size: 1.5rem;">Yêu Chang nhất trên đời!</p>
+        <iframe src="https://www.youtube.com/embed/fA8N778F32U?autoplay=1" style="display:none" allow="autoplay"></iframe>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btn-no');
+        const btnYes = document.getElementById('btn-yes');
+        const mainContainer = document.getElementById('main-container');
+        const successScreen = document.getElementById('success-screen');
+
+        let noCount = 0;
+        let yesFontSize = 1.2;
+        let yesPadding = 15;
+
+        // Hàm tạo trái tim bay nền
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+
+        // Xử lý khi di chuột/bấm vào nút KHÔNG
+        const moveButton = () => {
+            noCount++;
+            
+            // Di chuyển nút Không ngẫu nhiên
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+            
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+
+            // Phóng to nút CÓ
+            yesFontSize += 0.4;
+            yesPadding += 10;
+            btnYes.style.fontSize = yesFontSize + 'rem';
+            btnYes.style.padding = `${yesPadding}px ${yesPadding * 2.3}px`;
+
+            // Nếu né quá 5 lần, nút Có bắt đầu chiếm chỗ
+            if (noCount >= 5) {
+                btnYes.style.position = 'fixed';
+                btnYes.style.top = '50%';
+                btnYes.style.left = '50%';
+                btnYes.style.transform = 'translate(-50%, -50%)';
+                btnYes.style.width = (noCount * 20) + '%';
+                btnYes.style.height = (noCount * 20) + '%';
+                btnYes.style.display = 'flex';
+                btnYes.style.justifyContent = 'center';
+                btnYes.style.alignItems = 'center';
+            }
+
+            // Nếu vượt quá 10 lần, ép buộc che kín màn hình
+            if (noCount >= 10) {
+                btnYes.style.width = '100vw';
+                btnYes.style.height = '100vh';
+                btnYes.style.borderRadius = '0';
+            }
+        };
+
+        btnNo.addEventListener('mouseover', moveButton);
+        btnNo.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        // Xử lý khi bấm nút CÓ
+        btnYes.addEventListener('click', () => {
+            successScreen.style.display = 'flex';
+            createConfetti();
+        });
+
+        // Tạo hiệu ứng pháo hoa giấy (Confetti)
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.getElementById('success-screen').appendChild(confetti);
+            }
+        }
+    </script>
+</body>
+</html>
